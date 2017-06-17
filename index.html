@@ -80,7 +80,7 @@ th.active .arrow {
     <tbody>
       <tr v-for="entry in filteredData">
         <td v-for="key in columns">
-          {{entry[key]}}
+        <input v-model="entry[key]" placeholder="please input!">
         </td>
       </tr>
     </tbody>
@@ -89,16 +89,17 @@ th.active .arrow {
 
 <!-- demo root element -->
 <div id="demo">
-  <form id="search">
-    Search <input name="query" v-model="searchQuery">
-  </form>
   <demo-grid
     :data="gridData"
     :columns="gridColumns"
     :filter-key="searchQuery">
   </demo-grid>
+  <form id="form" >
+      <input type="button" @click="addEvent" value="送信">
+  </form>
 </div>
 
 
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     <script src="start.js"></script>

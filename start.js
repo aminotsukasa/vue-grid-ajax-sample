@@ -22,6 +22,7 @@ Vue.component('demo-grid', {
       var filterKey = this.filterKey && this.filterKey.toLowerCase()
       var order = this.sortOrders[sortKey] || 1
       var data = this.data
+/*
       if (filterKey) {
         data = data.filter(function (row) {
           return Object.keys(row).some(function (key) {
@@ -29,6 +30,7 @@ Vue.component('demo-grid', {
           })
         })
       }
+*/
       if (sortKey) {
         data = data.slice().sort(function (a, b) {
           a = a[sortKey]
@@ -57,13 +59,35 @@ var demo = new Vue({
   el: '#demo',
   data: {
     searchQuery: '',
-    gridColumns: ['name', 'power'],
+    gridColumns: ['branch', 'bin_start','bin_end'],
     gridData: [
-      { name: 'Chuck Norris', power: Infinity },
-      { name: 'Bruce Lee', power: 9000 },
-      { name: 'Jackie Chan', power: 7000 },
-      { name: 'Jet Li', power: 8000 }
+      { branch: 'Chuck1 Norris', power: Infinity },
     ]
+  },
+  created: function(){
+      // GET request
+      var self = this
+      // GET /someUrl
+      this.$http.get('http://localhost:8000/list.php').then(response => {
+        // success callback
+       self.gridData = response.body
+      }, response => {
+        // error callback
+        console.log(response)
+      });
+  },
+  methods: {
+    addEvent: function(e){
+      var self = this
+      this.$http.post('http://localhost:8000/list.php',self.gridData).then(response => {
+        // success callback
+        console.log(response)
+      }, response => {
+        // error callback
+      });
+
+    }
   }
+
 })
 
